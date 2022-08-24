@@ -21,4 +21,7 @@ while not exit:
             exit = True
 
     pygame.draw.rect(canvas, rect_color, pygame.Rect(30, 30, 60, 60))
+
+    # NO APAREZCA ASI EL lunes
+    #pygame.draw.aaline(canvas, (200, 200, 255), (10, 60), (200, 100))
     pygame.display.update()
