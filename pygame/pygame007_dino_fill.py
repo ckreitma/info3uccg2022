@@ -7,7 +7,20 @@
 
 # Define Infinite (Using INT_MAX
 # caused overflow problems)
+
+import pygame
+from math import sin, cos, pi
+from time import sleep
+from operator import itemgetter
+
 INT_MAX = 10000
+
+COLOR_FUERA = (200,10,10)
+COLOR_DENTRO = (10,10,200)
+COLOR_LINEA = (10,200,10)
+
+
+
 
 # Given three colinear points p, q, r,
 # the function checks if point q lies
@@ -123,48 +136,90 @@ def is_inside_polygon(points: list, p: tuple) -> bool:
     # Return true if count is odd, false otherwise
     return (count % 2 == 1)
 
+def is_inside_polygon2(points: list, p: tuple) -> bool:
+    cn = 0    # the crossing number counter
 
+    # repeat the first vertex at end
+    points = tuple(points[:])+(points[0],)
+
+    # loop through all edges of the polygon
+    for i in range(len(points)-1):   # edge from V[i] to V[i+1]
+        if ((points[i][1] <= p[1] and points[i+1][1] > p[1])   # an upward crossing
+                or (points[i][1] > p[1] and points[i+1][1] <= p[1])):  # a downward crossing
+            # compute the actual edge-ray intersect x-coordinate
+            # Como son rectas, se toman las proporciones de x e y (pendiente) y se verifica que esté en el rango
+            vt = (p[1] - points[i][1]) / float(points[i+1][1] - points[i][1])
+            if p[0] < points[i][0] + vt * (points[i+1][0] - points[i][0]):  # P[0] < intersect
+                cn += 1  # a valid crossing of y=P[1] right of P[0]
+
+    return cn % 2   # 0 if even (out), and 1 if odd (in)
+
+def leer_puntos(archivo='./pygame/dino.txt'):
+    # Toma el archivo y crea una lista de puntos.
+    puntos = []
+    datos = open(archivo)
+    try:
+        for linea in datos:
+            x, y = linea.split(',')
+            puntos.append((int(x), int(y)))
+    except:
+        print(f'Error al abrir el archivo {archivo}')
+    finally:
+        datos.close()
+    return puntos
+
+def poligono(canvas, lista_puntos, color):
+    puntos = lista_puntos
+    p1 = puntos[0]
+    linea = 0
+    for p2 in puntos[1:]:
+        #print(f'Linea={linea} p1={p1} p2={p2}')
+        pygame.draw.aaline(canvas, color, p1, p2)
+        p1 = p2
+        linea+=1
+
+def pintar_linea(canvas,fila,puntos,color_fuera,color_dentro):
+    min_x = res = min(puntos, key=itemgetter(0))[0]
+    max_x = res = max(puntos, key=itemgetter(0))[0]
+
+
+    for x in range(min_x-10,max_x+10):
+        if is_inside_polygon(puntos,(x,fila)):
+            pygame.draw.line(canvas,color_dentro,(x,fila),(x,fila))
+        else:
+            pygame.draw.line(canvas,color_fuera,(x,fila),(x,fila))
+
+    pygame.display.update()
+def pintar_poligono(canvas,puntos,color_fuera,color_dentro):
+    min_y = res = min(puntos, key=itemgetter(1))[1]
+    max_y = res = max(puntos, key=itemgetter(1))[1]
+    for y in range(min_y-10,max_y+10):
+        pintar_linea(canvas,y,puntos,color_fuera,color_dentro)
 # Driver code
 if __name__ == '__main__':
+    pygame.init()
 
-    polygon1 = [(0, 0), (10, 0), (10, 10), (0, 10)]
+    color = (20, 20, 20)
+    rect_color = (600, 600, 0)
 
-    p = (20, 20)
-    if (is_inside_polygon(points=polygon1, p=p)):
-        print(f'points={polygon1} --> {p} Yes')
-    else:
-        print(f'points={polygon1} --> {p} No')
+    dino = leer_puntos(archivo='./pygame/dino.txt')
 
-    p = (5, 5)
-    if (is_inside_polygon(points=polygon1, p=p)):
-        print(f'{p} Yes')
-    else:
-        print(f'{p} No')
+    # CREATING CANVAS
+    canvas = pygame.display.set_mode((600, 600))
 
-    polygon2 = [(0, 0), (5, 0), (5, 5), (3, 3)]
+    # TITLE OF CANVAS
+    pygame.display.set_caption("Polígono a Partir de Archivo")
 
-    p = (3, 3)
-    if (is_inside_polygon(points=polygon2, p=p)):
-        print(f'{p} Yes')
-    else:
-        print(f'{p} No')
+    exit = False
 
-    p = (5, 1)
-    if (is_inside_polygon(points=polygon2, p=p)):
-        print(f'{p} Yes')
-    else:
-        print(f'{p} No')
+    while not exit:
+        canvas.fill(color)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                exit = True
 
-    p = (8, 1)
-    if (is_inside_polygon(points=polygon2, p=p)):
-        print(f'{p} Yes')
-    else:
-        print(f'{p} No')
-
-    polygon3 = [(0, 0), (10, 0), (10, 10), (0, 10)]
-
-    p = (-1, 10)
-    if (is_inside_polygon(points=polygon3, p=p)):
-        print(f'{p} Yes')
-    else:
-        print(f'{p} No')
+        poligono(canvas, dino, COLOR_LINEA)
+        pintar_linea(canvas,310,dino,COLOR_FUERA,COLOR_DENTRO)
+        pintar_linea(canvas,350,dino,COLOR_FUERA,COLOR_DENTRO)
+        #pintar_poligono(canvas,dino, COLOR_FUERA, COLOR_DENTRO)
+        pygame.display.update()
