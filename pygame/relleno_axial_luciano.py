@@ -154,7 +154,7 @@ def is_inside_polygon2(points: list, p: tuple) -> bool:
 
     return cn % 2   # 0 if even (out), and 1 if odd (in)
 
-def leer_puntos(archivo='./pygame/dino.txt'):
+def leer_puntos(archivo='./dino.txt'):
     # Toma el archivo y crea una lista de puntos.
     puntos = []
     datos = open(archivo)
@@ -184,7 +184,7 @@ def pintar_linea(canvas,fila,puntos,color_fuera,color_dentro):
 
 
     for x in range(min_x-10,max_x+10):
-        if is_inside_polygon(puntos,(x,fila)):
+        if is_inside_polygon2(puntos,(x,fila)):
             pygame.draw.line(canvas,color_dentro,(x,fila),(x,fila))
         else:
             pygame.draw.line(canvas,color_fuera,(x,fila),(x,fila))
@@ -193,8 +193,29 @@ def pintar_linea(canvas,fila,puntos,color_fuera,color_dentro):
 def pintar_poligono(canvas,puntos,color_fuera,color_dentro):
     min_y = res = min(puntos, key=itemgetter(1))[1]
     max_y = res = max(puntos, key=itemgetter(1))[1]
-    for y in range(min_y-10,max_y+10):
+    min_x = min(puntos, key=itemgetter(0))[0]
+    max_x = max(puntos, key=itemgetter(0))[0]
+    #for y in range(min_y-10,max_y+10):
+     #   pintar_linea(canvas,y,puntos,color_fuera,color_dentro)
+    i=200
+    a=10
+    for y in range(min_y-10,310):
         pintar_linea(canvas,y,puntos,color_fuera,color_dentro)
+    for y in range(310,330):
+        pintar_linea(canvas,y,puntos,color_fuera,(a,10,i))
+        a+=7
+        i-=7
+    for y in range(330,max_y+10):
+        pintar_linea(canvas,y,puntos,color_fuera,(a,10,i))
+        if i<200 and a>10:
+            i+=7
+            a-=7
+        else:
+            i=200
+            a=10
+
+    
+        #pintar_linea(canvas,y,puntos,color_dentro,color_dentro)
 # Driver code
 if __name__ == '__main__':
     pygame.init()
@@ -202,7 +223,7 @@ if __name__ == '__main__':
     color = (20, 20, 20)
     rect_color = (600, 600, 0)
 
-    dino = leer_puntos(archivo='./pygame/dino.txt')
+    dino = leer_puntos(archivo='./dino.txt')
 
     # CREATING CANVAS
     canvas = pygame.display.set_mode((600, 600))
@@ -222,6 +243,6 @@ if __name__ == '__main__':
         
         # Pintamos todas las líneas
         #for linea in range(210,480):
-            #pintar_linea(canvas,linea,dino,COLOR_FUERA,COLOR_DENTRO)
+         #   pintar_linea(canvas,linea,dino,COLOR_FUERA,COLOR_DENTRO)
         pintar_poligono(canvas,dino, COLOR_FUERA, COLOR_DENTRO)
         pygame.display.update()
