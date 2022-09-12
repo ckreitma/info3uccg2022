@@ -1,2 +1,6 @@
-numpy==1.23.2
-pygame==2.1.2
+numpy
+pygame
+pandas
+pyopengl
+pyrr
+glfw
