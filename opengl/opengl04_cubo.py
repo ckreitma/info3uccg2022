@@ -63,7 +63,7 @@ def main():
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB)
     glutInitWindowSize(600, 600)
     glutInitWindowPosition(0, 0)
-    glutCreateWindow("Cubo 3D sencillo con líneas")
+    glutCreateWindow(u'Cubo 3D sencillo con lineas')
     glutDisplayFunc(Cube)
     glutMainLoop()
 

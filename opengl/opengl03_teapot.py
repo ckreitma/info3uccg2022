@@ -8,7 +8,6 @@ def draw():
     glMatrixMode(GL_PROJECTION)  # Apunta a la matriz de proyección
     glLoadIdentity()
     # Matriz de proyección ortogonal
-    # Matriz de proyección ortogonal
     glOrtho(-1, 1, -1, 1, -1, 1)
     glMatrixMode(GL_MODELVIEW)
     glRotatef(0, 0.1, 0.1, 0.1)
