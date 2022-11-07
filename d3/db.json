@@ -1,1 +1,29 @@
-{"posts": [{"content": "blablabla", "id": 1}, {"content": "pero", "id": 2}, {"content": "Otro", "id": 3}]}
+{
+    "posts": [{
+        "content": "blablabla",
+        "id": 1
+    }, {
+        "content": "pero",
+        "id": 2
+    }, {
+        "content": "Otro",
+        "id": 3
+    }],
+    "ventas": [{
+        "content": "PrimveraVenta",
+        "monto": 154000,
+        "id": 1
+    }, {
+        "content": "segunda",
+        "monto": 23665,
+        "id": 2
+    }, {
+        "content": "tercera",
+        "monto": 89121,
+        "id": 3
+    }, {
+        "content": "QuintaVenta",
+        "monto": 167000,
+        "id": 4
+    }]
+}
