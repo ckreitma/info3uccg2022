@@ -10,20 +10,39 @@
         "id": 3
     }],
     "ventas": [{
-        "content": "PrimveraVenta",
-        "monto": 154000,
-        "id": 1
+        "id": 1,
+        "cliente": "Corrales",
+        "fecha": "2022-10-01",
+        "monto": 154000
     }, {
-        "content": "segunda",
-        "monto": 23665,
-        "id": 2
+        "id": 2,
+        "cliente": "García",
+        "fecha": "2022-10-04",
+        "monto": 450221
     }, {
-        "content": "tercera",
-        "monto": 89121,
-        "id": 3
+        "id": 3,
+        "cliente": "Aguilera",
+        "fecha": "2022-10-07",
+        "monto": 32212
     }, {
-        "content": "QuintaVenta",
-        "monto": 167000,
-        "id": 4
+        "id": 4,
+        "cliente": "Perez",
+        "fecha": "2022-11-17",
+        "monto": 342200
+    }, {
+        "id": 5,
+        "cliente": "Corrales",
+        "fecha": "2022-12-01",
+        "monto": 232223
+    }, {
+        "id": 6,
+        "cliente": "Perez",
+        "fecha": "2022-12-03",
+        "monto": 232223
+    }, {
+        "id": 7,
+        "cliente": "Aguilera",
+        "fecha": "2022-12-03",
+        "monto": 455000
     }]
 }
